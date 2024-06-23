@@ -1,18 +1,41 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
+
+import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
+import {PostCreateComponent} from './posts/post-create/post-create/post-create.component';
+import {FormsModule} from "@angular/forms";
+import {MatCard} from "@angular/material/card";
+import {MatButton} from "@angular/material/button";
+import {HeaderComponent} from './header/header/header.component';
+import {MatToolbar} from "@angular/material/toolbar";
+import {MatIcon} from "@angular/material/icon";
+import {PostListComponent} from './posts/post-list/post-list/post-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PostCreateComponent,
+    HeaderComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatCard,
+    MatButton,
+    MatToolbar,
+    MatIcon
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
