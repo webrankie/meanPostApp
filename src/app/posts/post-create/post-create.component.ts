@@ -7,11 +7,11 @@ import {Component} from '@angular/core';
 })
 export class PostCreateComponent {
 
-  enteredValue = '';
-  newPost = '';
+  enteredTitle = '';
+  enteredContent = '';
 
   onAddPost() {
-    this.newPost = this.enteredValue;
+    const post = {title: this.enteredTitle, content: this.enteredContent};
   }
 
 }
