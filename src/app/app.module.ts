@@ -15,6 +15,7 @@ import {MatIcon} from "@angular/material/icon";
 import {PostListComponent} from './posts/post-list/post-list.component';
 import {PostCreateComponent} from './posts/post-create/post-create.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {
   MatAccordion,
   MatExpansionPanel,
@@ -43,7 +44,8 @@ import {
     MatExpansionPanel,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatExpansionModule
   ],
   providers: [
     provideAnimationsAsync()
