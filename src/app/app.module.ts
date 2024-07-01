@@ -9,7 +9,7 @@ import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {MatCard} from "@angular/material/card";
-import {MatButton} from "@angular/material/button";
+import {MatAnchor, MatButton} from "@angular/material/button";
 import {HeaderComponent} from './header/header/header.component';
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatIcon} from "@angular/material/icon";
@@ -48,6 +48,7 @@ import {
     MatFormFieldModule,
     MatExpansionModule,
     HttpClientModule,
+    MatAnchor,
   ],
   providers: [
     provideAnimationsAsync()
