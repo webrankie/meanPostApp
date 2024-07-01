@@ -1,8 +1,9 @@
 <mat-card>
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
     <mat-form-field>
       <input matInput type="text" name="title"
-             ngModel required minlength="3"
+             [ngModel]="post?.title"
+             required minlength="3"
              placeholder="Post Title"
              #title="ngModel">
       @if (title.invalid) {
@@ -11,7 +12,8 @@
     </mat-form-field>
     <mat-form-field>
       <textarea matInput name="content" id="text1" cols="30" rows="4"
-                ngModel required minlength="5"
+                [ngModel]="post?.content"
+                required minlength="5"
                 placeholder="Post Content"
                 #content="ngModel"></textarea>
       @if (content.invalid) {

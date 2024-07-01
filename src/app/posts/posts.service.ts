@@ -37,6 +37,10 @@ export class PostsService {
     return this.postUpdated.asObservable();
   }
 
+  getPost(id: string | null) {
+    return {...this.posts.find(post => post.id === id)}
+  }
+
   addPost(title: string, content: string) {
     const post: Post = {id: 'null', title: title, content: content};
     this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', post)
@@ -48,8 +52,14 @@ export class PostsService {
       })
   }
 
+  updatePost(id: string | null | undefined, title: string, content: string) {
+    const post: Post = {id: 'null', title: title, content: content};
+    this.http.put(`http://localhost:3000/api/posts/${id}`, post).subscribe(
+      resPostData => console.log(resPostData));
+  }
+
   deletePost(postId: string) {
-    this.http.delete(`http://localhost:3000/api/posts/` + postId)
+    this.http.delete(`http://localhost:3000/api/posts/${postId}`)
       .subscribe(() => {
         const updatedPosts = this.posts.filter(post => post.id !== postId);
         this.posts = updatedPosts;
