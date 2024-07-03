@@ -23,6 +23,7 @@ import {
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {
     MatExpansionPanelTitle,
     MatFormFieldModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     MatAnchor,
   ],
