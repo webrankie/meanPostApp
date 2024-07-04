@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ParamMap, ActivatedRoute} from "@angular/router";
 
 import {PostsService} from "../posts.service";
+import {Post} from "../post.model"
+import {mimeType} from "./mime-type.validator";
 
 @Component({
   selector: 'app-post-create',
@@ -13,7 +15,7 @@ export class PostCreateComponent implements OnInit {
 
   errorMessageTitle = 'Please enter a valid post title';
   errorMessageContent = 'Please enter a valid post content';
-  post: any;
+  post: any; // need to be checked to update a type of post to work with Post model ( post: Post )
   isLoading = false;
   form!: FormGroup;
   imagePreview: any;
@@ -30,7 +32,7 @@ export class PostCreateComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(3)]
       }),
       content: new FormControl(null, {validators: [Validators.required]}),
-      image: new FormControl(null, {validators: [Validators.required]}),
+      image: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
 
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
