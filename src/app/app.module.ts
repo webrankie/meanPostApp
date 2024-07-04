@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
-import {FormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatCard} from "@angular/material/card";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {HeaderComponent} from './header/header/header.component';
@@ -35,7 +35,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    ReactiveFormsModule,
     MatFormField,
     MatInput,
     MatCard,

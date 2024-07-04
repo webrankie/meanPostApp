@@ -1,13 +1,10 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onSavePost(postForm)" *ngIf="!isLoading" #postForm="ngForm">
+  <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
     <mat-form-field>
-      <input matInput type="text" name="title"
-             [ngModel]="post?.title"
-             required minlength="3"
-             placeholder="Post Title"
-             #title="ngModel">
-      @if (title.invalid) {
+      <input matInput type="text"
+             formControlName="title">
+      @if (form.get('title')?.invalid) {
         <mat-error>{{ errorMessageTitle }}</mat-error>
       }
     </mat-form-field>
@@ -16,12 +13,11 @@
       <input #filePicker type="file">
     </div>
     <mat-form-field>
-      <textarea matInput name="content" id="text1" cols="30" rows="4"
-                [ngModel]="post?.content"
-                required minlength="5"
-                placeholder="Post Content"
-                #content="ngModel"></textarea>
-      @if (content.invalid) {
+      <textarea matInput
+                formControlName="content"
+                id="text1" cols="30" rows="4"
+                placeholder="Post Content"></textarea>
+      @if (form.get('content')?.invalid) {
         <mat-error>{{ errorMessageContent }}</mat-error>
       }
     </mat-form-field>
