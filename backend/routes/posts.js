@@ -1,7 +1,30 @@
 const express = require("express");
 const Post = require("../models/post");
+const multer = require("multer");
 
 const router = express.Router();
+
+const MIME_TYPE_MAP = {
+  'image/jpg': "jpg",
+  'image/png': "png",
+  'image/jpeg': "jpeg"
+}
+
+const filesStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = new Error("File Type is invalid");
+    if (isValid) {
+      error = null;
+    }
+    cb(error, "backend/images");
+  },
+  filename: function (req, file, cb) {
+    const name = file.originalname.toLowerCase().replace(/[-[\]{}]/g, "");
+    const ext = MIME_TYPE_MAP[file.mimeType];
+    cb(null, `${name}-${Date.now}.${ext}`);
+  }
+})
 
 router.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -16,7 +39,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post("", (req, res, next) => {
+router.post("", multer(filesStorage).single("image"), (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
