@@ -4,43 +4,54 @@ import {Observable, Observer, EMPTY} from "rxjs";
 export const mimeType = (
   control: AbstractControl
 ): Promise<{ [key: string]: any }> | Observable<{ [key: string]: any }> => {
-  if (typeof (control.value) === 'string') {
-    return EMPTY;
+  if (typeof control.value === 'string') {
+    return EMPTY; // Return EMPTY observable if the value is still a string (file not selected yet)
   }
+
   const file = control.value as File;
   const fileReader = new FileReader();
-  const frObs = new Observable((observer: Observer<{ [key: string]: any }>) => {
-      fileReader.addEventListener("loadend", () => {
-        let isValid: boolean;
-        const arr = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
-        let header = "";
-        for (let i = 0; i < arr.length; i++) {
-          header += arr[i].toString(16);
-        }
-        switch (header) {
-          case "89504e47":
-            isValid = true;
-            break;
-          case "ffd8ffe0":
-          case "ffd8ffe1":
-          case "ffd8ffe2":
-          case "ffd8ffe3":
-          case "ffd8ffe8":
-            isValid = true;
-            break;
-          default:
-            isValid = false; // Or you can use the blob.type as fallback
-            break;
-        }
-        if (isValid) {
-          observer.next(EMPTY);
-        } else {
-          observer.next({invalidMimeType: true});
-        }
-        observer.complete();
-      });
-      fileReader.readAsArrayBuffer(file);
-    }
-  );
-  return frObs;
+
+  return new Observable((observer: Observer<{ [key: string]: any }>) => {
+    fileReader.onloadend = () => {
+      const arr = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
+      let header = "";
+      let isValid = false;
+
+      // Convert bytes to hexadecimal string
+      for (let i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+      }
+
+      // Check file signature against known signatures for PNG and JPEG
+      switch (header) {
+        case "89504e47":
+          isValid = true; // PNG file
+          break;
+        case "ffd8ffe0":
+        case "ffd8ffe1":
+        case "ffd8ffe2":
+        case "ffd8ffe3":
+        case "ffd8ffe8":
+          isValid = true; // JPEG file
+          break;
+        default:
+          isValid = false; // Invalid file type
+          break;
+      }
+
+      if (isValid) {
+        observer.next(EMPTY); // Valid file type, emit null (no error)
+      } else {
+        observer.next({invalidMimeType: true}); // Invalid file type
+      }
+      observer.complete(); // Complete the observer
+    };
+
+    fileReader.onerror = () => {
+      observer.next({invalidMimeType: true}); // Handle potential file reading errors
+      observer.complete();
+    };
+
+    fileReader.readAsArrayBuffer(file); // Read file as ArrayBuffer
+  });
 };

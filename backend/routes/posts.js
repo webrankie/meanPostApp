@@ -10,7 +10,7 @@ const MIME_TYPE_MAP = {
   'image/jpeg': "jpeg"
 }
 
-const filesStorage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("File Type is invalid");
@@ -20,8 +20,8 @@ const filesStorage = multer.diskStorage({
     cb(error, "backend/images");
   },
   filename: function (req, file, cb) {
-    const name = file.originalname.toLowerCase().replace(/[-[\]{}]/g, "");
-    const ext = MIME_TYPE_MAP[file.mimeType];
+    const name = file.originalname.toLowerCase().split(' ').join('-');
+    const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, `${name}-${Date.now}.${ext}`);
   }
 })
@@ -39,7 +39,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post("", multer(filesStorage).single("image"), (req, res, next) => {
+router.post("", multer({storage: storage}).single("image"), (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
