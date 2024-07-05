@@ -20,11 +20,12 @@ export class PostsService {
       posts: any
     }>('http://localhost:3000/api/posts') //need to update post type to be more specific
       .pipe(map((postData) => {
-        return postData.posts.map((post: { title: any; content: any; _id: any; }) => {
+        return postData.posts.map((post: { title: string; content: string; _id: string; imagePath: string }) => {
           return {
             title: post.title,
             content: post.content,
             id: post._id,
+            imagePath: post.imagePath
           }
         })
       }))
@@ -53,9 +54,14 @@ export class PostsService {
     postData.append("content", content);
     postData.append("image", image, title); //title will be a part of file name for backend
     console.log(postData);
-    this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', postData)
+    this.http.post<{ message: string, post: Post }>('http://localhost:3000/api/posts', postData)
       .subscribe((resPostData) => {
-        const post: Post = {id: resPostData.postId, title: title, content: content};
+        const post: Post = {
+          id: resPostData.post.id,
+          title: title,
+          content: content,
+          imagePath: resPostData.post.imagePath
+        };
         this.posts.push(post);
         this.postUpdated.next([...this.posts]);
         this.router.navigate(['/']);
@@ -63,7 +69,7 @@ export class PostsService {
   }
 
   updatePost(id: string | null | undefined, title: string, content: string) {
-    const post: Post = {id: 'null', title: title, content: content};
+    const post: Post = {id: 'null', title: title, content: content, imagePath: ''};
     this.http.put(`http://localhost:3000/api/posts/${id}`, post).subscribe(
       resPostData => {
         const updatedPosts = [...this.posts];
