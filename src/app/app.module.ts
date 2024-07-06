@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,7 @@ import {
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LoginComponent} from './auth/login/login.component';
 import {SignupComponent} from './auth/signup/signup.component';
+import {AuthInterceptor} from "./auth/auth-interceptor";
 
 @NgModule({
   declarations: [
@@ -61,7 +62,7 @@ import {SignupComponent} from './auth/signup/signup.component';
     MatCardFooter,
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(), {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })
