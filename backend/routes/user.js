@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
 
+
   bcrypt.hash(req.body.password, 12).then((hash) => {
     const user = new User({
       email: req.body.email,
