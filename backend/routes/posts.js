@@ -108,38 +108,6 @@ router.get("", async (req, res, next) => {
   }
 });
 
-// router.get("", (req, res, next) => {
-//   const pageSize = +req.query.pageSize;
-//   const currentPage = +req.query.page;
-//   const postQuery = Post.find();
-//   let fetchedPosts;
-//
-//   if (pageSize && currentPage) {
-//     postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-//   }
-//
-//   postQuery
-//     .then(documents => {
-//       fetchedPosts = documents;
-//       return Post.countDocuments(); // Correct method to count documents
-//     })
-//     .then(count => {
-//       res.status(200).json({
-//         message: "Posts fetched successfully!",
-//         posts: fetchedPosts,
-//         maxPosts: count
-//       });
-//     })
-//     .catch(error => {
-//       res.status(500).json({
-//         message: "Fetching posts failed!",
-//         error: error
-//       });
-//     });
-// });
-
-
-
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {

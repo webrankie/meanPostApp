@@ -13,3 +13,7 @@ mat-spinner {
 .wrapper {
   text-align: center;
 }
+
+form {
+  padding: 1rem;
+}
