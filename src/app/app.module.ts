@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {MatCard} from "@angular/material/card";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {HeaderComponent} from './header/header/header.component';
@@ -25,18 +25,21 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {LoginComponent} from './auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     PostListComponent,
-    PostCreateComponent
+    PostCreateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MatFormField,
     MatInput,
     MatCard,
