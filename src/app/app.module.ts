@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardFooter} from "@angular/material/card";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {HeaderComponent} from './header/header/header.component';
 import {MatToolbar} from "@angular/material/toolbar";
@@ -26,6 +26,7 @@ import {
 } from "@angular/material/expansion";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LoginComponent} from './auth/login/login.component';
+import {SignupComponent} from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {LoginComponent} from './auth/login/login.component';
     HeaderComponent,
     PostListComponent,
     PostCreateComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,7 @@ import {LoginComponent} from './auth/login/login.component';
     MatPaginatorModule,
     HttpClientModule,
     MatAnchor,
+    MatCardFooter,
   ],
   providers: [
     provideAnimationsAsync()
