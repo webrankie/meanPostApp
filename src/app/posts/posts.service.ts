@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Post} from "./post.model";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
@@ -14,11 +14,12 @@ export class PostsService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  getPosts() {
+  getPosts(postsPerPage: number, currentPage: number) {
+    const queryParams = `?pageSize=${postsPerPage}&page=${currentPage}`;
     this.http.get<{
       message: string,
       posts: any
-    }>('http://localhost:3000/api/posts') //need to update post type to be more specific
+    }>('http://localhost:3000/api/posts' + queryParams) //need to update post type to be more specific
       .pipe(map((postData) => {
         return postData.posts.map((post: { title: string; content: string; _id: string; imagePath: string }) => {
           return {
