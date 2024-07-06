@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import {MatFormField, MatInput} from '@angular/material/input'
 import { AppComponent } from './app.component';
-import {FormsModule} from "@angular/forms";
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {MatCard} from "@angular/material/card";
 import {MatAnchor, MatButton} from "@angular/material/button";
 import {HeaderComponent} from './header/header/header.component';
@@ -17,6 +17,7 @@ import {PostListComponent} from './posts/post-list/post-list.component';
 import {PostCreateComponent} from './posts/post-create/post-create.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {
   MatAccordion,
   MatExpansionPanel,
@@ -24,17 +25,20 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {LoginComponent} from './auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     PostListComponent,
-    PostCreateComponent
+    PostCreateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     MatFormField,
     MatInput,
@@ -49,6 +53,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatFormFieldModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
     HttpClientModule,
     MatAnchor,
   ],
