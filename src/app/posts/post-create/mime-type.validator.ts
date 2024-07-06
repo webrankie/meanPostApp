@@ -1,9 +1,9 @@
 import {AbstractControl} from "@angular/forms";
-import {Observable, Observer, EMPTY} from "rxjs";
+import {Observable, Observer, EMPTY, of} from "rxjs";
 
 export const mimeType = (
   control: AbstractControl
-): Promise<{ [key: string]: any }> | Observable<{ [key: string]: any }> => {
+): Observable<{ [p: string]: any }> => {
   if (typeof control.value === 'string') {
     return EMPTY; // Return EMPTY observable if the value is still a string (file not selected yet)
   }
