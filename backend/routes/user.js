@@ -49,7 +49,8 @@ router.post("/login", async (req, res) => {
       }, "secret_as_should_be_longer_AS42", {expiresIn: "1h"});
       res.status(200).json({
         message: "Authentication successfully!",
-        token: token
+        token: token,
+        expiresIn: 3600
       });
     })
     .catch((err) => {
