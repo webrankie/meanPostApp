@@ -3,6 +3,7 @@
   <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
     <mat-form-field>
       <input matInput type="text"
+             placeholder="Post Name"
              formControlName="title">
       @if (form.get('title')?.invalid) {
         <mat-error>{{ errorMessageTitle }}</mat-error>

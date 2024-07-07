@@ -1,6 +1,7 @@
 const express = require("express");
 const Post = require("../models/post");
 const multer = require("multer");
+const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
 
@@ -26,20 +27,7 @@ const storage = multer.diskStorage({
   }
 })
 
-router.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
-
-router.post("", multer({storage: storage}).single("image"), (req, res, next) => {
+router.post("", checkAuth, multer({storage: storage}).single("image"), (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
   const post = new Post({
     title: req.body.title,
@@ -59,7 +47,7 @@ router.post("", multer({storage: storage}).single("image"), (req, res, next) => 
   });
 });
 
-router.put('/:id', multer({storage: storage}).single("image"),
+router.put('/:id', checkAuth, multer({storage: storage}).single("image"),
   (req, res, next) => {
     let imagePath = req.body.imagePath;
     if (req.file) {
@@ -108,38 +96,6 @@ router.get("", async (req, res, next) => {
   }
 });
 
-// router.get("", (req, res, next) => {
-//   const pageSize = +req.query.pageSize;
-//   const currentPage = +req.query.page;
-//   const postQuery = Post.find();
-//   let fetchedPosts;
-//
-//   if (pageSize && currentPage) {
-//     postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
-//   }
-//
-//   postQuery
-//     .then(documents => {
-//       fetchedPosts = documents;
-//       return Post.countDocuments(); // Correct method to count documents
-//     })
-//     .then(count => {
-//       res.status(200).json({
-//         message: "Posts fetched successfully!",
-//         posts: fetchedPosts,
-//         maxPosts: count
-//       });
-//     })
-//     .catch(error => {
-//       res.status(500).json({
-//         message: "Fetching posts failed!",
-//         error: error
-//       });
-//     });
-// });
-
-
-
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then(post => {
     if (post) {
@@ -150,7 +106,7 @@ router.get("/:id", (req, res, next) => {
   })
 })
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", checkAuth, (req, res, next) => {
   Post.deleteOne({_id: req.params.id}).then(result => {
     console.log(result);
     res.status(200).json({message: "Post deleted!"});

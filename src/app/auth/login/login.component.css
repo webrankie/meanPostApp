@@ -5,3 +5,15 @@ mat-form-field {
 mat-spinner {
   margin: auto;
 }
+
+.spacer-top {
+  margin-top: 2rem;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+form, mat-card-footer {
+  padding: 1rem;
+}

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+  <form (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
       @if (emailInput.invalid) {
@@ -17,13 +17,7 @@
     <button
       mat-raised-button
       color="accent"
-      type="submit" *ngIf="!isLoading">Login
+      type="submit" *ngIf="!isLoading">Signup
     </button>
   </form>
-  <mat-card-footer>
-    <div class="spacer-top wrapper">
-      <h4>Don't have account?</h4>
-      <button mat-button mat-stroked-button routerLink="/signup" routerLinkActive="mat-accent">Signup</button>
-    </div>
-  </mat-card-footer>
 </mat-card>
