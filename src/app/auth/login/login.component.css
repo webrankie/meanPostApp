@@ -14,6 +14,6 @@ mat-spinner {
   text-align: center;
 }
 
-form {
+form, mat-card-footer {
   padding: 1rem;
 }
