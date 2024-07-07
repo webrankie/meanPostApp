@@ -8,7 +8,7 @@ import {Subject} from "rxjs";
 })
 export class AuthService {
   private isAuthenticated: boolean = false;
-  private token: string | undefined;
+  private token: string | undefined | null;
   private authStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient) {
@@ -45,5 +45,11 @@ export class AuthService {
           this.authStatusListener.next(true);
         }
       })
+  }
+
+  logout() {
+    this.token = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
   }
 }
