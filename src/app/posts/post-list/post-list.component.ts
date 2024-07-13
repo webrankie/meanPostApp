@@ -4,7 +4,6 @@ import {PostsService} from "../posts.service";
 import {Subscription} from 'rxjs';
 import {PageEvent} from "@angular/material/paginator";
 import {AuthService} from "../../auth/auth.service";
-import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-post-list',
@@ -20,7 +19,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 2, 4, 6, 10];
   private postsSub: Subscription = new Subscription;
-  userIsAuthenticated = false;
+  userIsAuthenticated:any = false;
+  userId: string | null | undefined;
   private authStatusSub: Subscription | null = null;  // Initialize to null;
 
   constructor(public _postService: PostsService, private authService: AuthService) {
@@ -29,6 +29,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this._postService.getPosts(this.postPerPage, this.currentPage);
+    this.userId = this.authService.getUserId();
     this.postsSub = this._postService.getPostUpdateListener().subscribe((postData: {
       posts: Post[],
       postCount: number
@@ -39,14 +40,9 @@ export class PostListComponent implements OnInit, OnDestroy {
     });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener()
-      .pipe(
-        catchError(error => {
-          console.error('Error in auth status subscription', error);
-          throw error;  // Re-throw the error after logging it
-        })
-      )
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       })
   }
 

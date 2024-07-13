@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, "secret_as_should_be_longer_AS42");
+    const decodedToken = jwt.verify(token, "secret_as_should_be_longer_AS42");
+    req.userData = {email: decodedToken.email, userId: decodedToken.userId};
     next();
   } catch (err) {
-    return res.status(401).send({message: 'Unauthorized'});
+    return res.status(401).send({message: 'Auth failed in check-auth'});
   }
 }
