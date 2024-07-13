@@ -20,27 +20,31 @@ export class PostsService {
       message: string,
       posts: any,
       maxPosts: number
-    }>('http://localhost:3000/api/posts' + queryParams) //need to update post type to be more specific
-      .pipe(map((postData) => {
+    }>('http://localhost:3000/api/posts' + queryParams)
+      .pipe(
+        map((postData) => {
         return {
           posts: postData.posts.map((post: {
             title: string;
             content: string;
             _id: string;
             imagePath: string;
-            maxPosts: number
+            maxPosts: number;
+            creator: any;
           }) => {
           return {
             title: post.title,
             content: post.content,
             id: post._id,
-            imagePath: post.imagePath
+            imagePath: post.imagePath,
+            creator: post.creator
           }
           }),
           maxPosts: postData.maxPosts
         };
       }))
       .subscribe((transformedPostData) => {
+        console.log(transformedPostData)
         this.posts = transformedPostData.posts;
         this.postUpdated.next({
           posts: [...this.posts],
