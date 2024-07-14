@@ -50,7 +50,7 @@ exports.updatePost = async (req, res, next) => {
     );
 
     console.log(result);
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       res.status(200).json({ message: "Post updated successfully!" });
     } else {
       res.status(401).json({ message: "Not authorized to update this post." });
