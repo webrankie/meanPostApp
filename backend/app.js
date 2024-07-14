@@ -8,7 +8,7 @@ const usersRoutes = require("./routes/user");
 
 const app = express();
 
-const uri = "mongodb+srv://316clouds:Ak03170110Kz42@cluster1.ygvxdmz.mongodb.net/node-angular?appName=Cluster1";
+const uri = `mongodb+srv://316clouds:${process.env.MONGO_ATLAS_PW}@cluster1.ygvxdmz.mongodb.net/node-angular?appName=Cluster1`;
 
 mongoose
   .connect(uri)
