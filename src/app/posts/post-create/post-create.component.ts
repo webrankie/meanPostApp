@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ParamMap, ActivatedRoute} from "@angular/router";
 import {PostsService} from "../posts.service";
 import {Post} from "../post.model"
 import {mimeType} from "./mime-type.validator";
+import {Subscription} from "rxjs";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.css'
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
 
   errorMessageTitle = 'Please enter a valid post title';
   errorMessageContent = 'Please enter a valid post content';
@@ -20,12 +22,21 @@ export class PostCreateComponent implements OnInit {
   imagePreview: any;
   private mode = 'create';
   private postId: any;
+  private authStatusSub: Subscription | null = null;
 
 
-  constructor(public _postService: PostsService, public route: ActivatedRoute) {
-  }
+  constructor(
+    public _postService: PostsService,
+    public route: ActivatedRoute,
+    private authService: AuthService
+) {}
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    );
     this.form = new FormGroup({
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
@@ -76,10 +87,6 @@ export class PostCreateComponent implements OnInit {
 
   onSavePost() {
     // if (this.form.invalid) {
-    //   console.log('Form is invalid:', this.form);
-    //   console.log('Form is image:', this.form.value.image);
-    //   console.log('Form Image name:' +  this.form.value.image.name);
-    //   console.log('Form Image name typeof:' +  typeof(this.form.value.image.name));
     //   return;
     // }
     this.isLoading = true;
@@ -94,5 +101,12 @@ export class PostCreateComponent implements OnInit {
       )
     }
     this.form.reset();
+  }
+
+  ngOnDestroy() {
+    if( this.authStatusSub) {
+      this.authStatusSub.unsubscribe();
+    }
+
   }
 }

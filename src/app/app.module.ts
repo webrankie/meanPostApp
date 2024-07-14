@@ -28,6 +28,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LoginComponent} from './auth/login/login.component';
 import {SignupComponent} from './auth/signup/signup.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
+import {ErrorInterceptor} from "./error-nterceptor";
+import {MatDialogModule} from '@angular/material/dialog';
+import {ErrorComponent} from "./errors/error.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
     PostListComponent,
     PostCreateComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -60,9 +64,12 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
     HttpClientModule,
     MatAnchor,
     MatCardFooter,
+    MatDialogModule,
   ],
   providers: [
-    provideAnimationsAsync(), {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    provideAnimationsAsync(),
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })
