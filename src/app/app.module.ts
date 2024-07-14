@@ -11,7 +11,6 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {ErrorInterceptor} from "./error-nterceptor";
 import {ErrorComponent} from "./errors/error.component";
 import {AngularMaterialModule} from "./angular-material.module";
-import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import {AuthModule} from "./auth/auth.module";
     AppRoutingModule,
     HttpClientModule,
     AngularMaterialModule,
-    AuthModule,
   ],
   providers: [
     provideAnimationsAsync(),
