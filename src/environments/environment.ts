@@ -1,5 +1,6 @@
 
 
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://s.calinker.com/api'
 };
